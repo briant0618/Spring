@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+</head>
+<body>
+	<h1>MococoCute</h1>
+	
+	<h3>[[${title}]]</h3>
+	<h3 th:text=${hello}>제목</h3>
+	
+	<h4> ★thymeleaf에서 If문</h4>
+	<p>
+		<a href="#" th:if="${user}">[[${user.name}]]님 하잉</a> <!-- user객체가 null이 아니면 출력시작 -->
+		<a href="#" th:unless="${user}">user가 보이지 않앙</a>
+	</p>
+	
+	<h4> ★thymeleaf에서 for문</h4>
+	
+	<table border="1">
+		<tr th:each="user:${users}"> <!-- 앞뒤 헷갈리지 말기. -->
+			<td th:text="${user.uid}">hong</td>
+			<td th:text="${user.name}">홍길동</td>
+			<td th:text="${user.hp}">010-1234-1234</td>
+			<td th:text="${user.age}">21</td>
+		</tr>
+	
+	</table>
+	
+	<h4> ★Thymeleaf Link</h4>
+	
+	<a th:href="@{/include}"> Thymeleaf Include </a>
+	
+</body>
+</html>
