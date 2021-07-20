@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<!-- 
+		Springboot는 기본적으로 /(Context-root)를 index.html로 자동 맵핑되어있음
+		따라서 Controller가 필요없음
+	-->
+</head>
+<body>
+	<h3>스프링부트 Mybatis 실습하기</h3>
+	
+	<a th:href="@{/user/register}">User 등록</a>
+	<a th:href="@{/member/register}">Member 등록</a>
+	
+
+</body>
+</html>
