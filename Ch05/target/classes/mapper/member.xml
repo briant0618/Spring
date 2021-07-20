@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- namespace = mapper구분하는 식별값 / 경로 -->
+<mapper namespace="mapper.member"> 
+	<insert id="INSERT_MEMBER">
+		INSERT INTO `Member` VALUES (#{uid}, #{name}, #{hp}, #{pos}, #{dep}, NOW());
+	</insert>
+	
+	<select id="SELECT_MEMBER" resultType="kr.co.ch05.vo.MemberVO">
+		SELECT * FROM `Member` WHERE `uid`=#{uid};	
+	</select>
+	
+	<select id="SELECT_MEMBERS" resultType="kr.co.ch05.vo.MemberVO">
+		SELECT * FROM `Member`;	
+	</select>
+	
+	<update id="UPDATE_MEMBER">
+		UPDATE `Member` SET 
+			`name`=#{name},
+			`hp`=#{hp},
+			`pos`=#{pos},
+			`dep`=#{dep}
+		WHERE
+			`uid`=#{uid};		
+	</update>
+	
+	<delete id="DELETE_MEMBER">
+		DELETE FROM `Member` WHERE `uid`=#{uid};
+	</delete>
+	
+</mapper>
