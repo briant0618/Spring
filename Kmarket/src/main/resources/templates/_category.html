@@ -1,0 +1,45 @@
+<script>
+	$(function(){
+		//category menu 가져오기	
+		var category = $('.category');
+		
+		$.get('/Kmarket/categories',function(result){
+			
+			$.each(result, function(i, data){  // data = categoriesVO
+				
+				// icon 생성하기
+				var ico = '';
+				if(i==0) ico = 'fas fa-shopping-bag';
+				if(i==1) ico = 'fas fa-tshirt';
+				if(i==2) ico = 'fas fa-baby-carriage';
+				if(i==3) ico = 'fas fa-utensils';
+				if(i==4) ico = 'fas fa-home';
+				if(i==5) ico = 'fas fa-tv';
+				if(i==6) ico = 'fas fa-running';
+				if(i==7) ico = 'fas fa-car';
+				if(i==8) ico = 'fas fa-book';
+					
+				//ul tag에 append시킬거임
+				var tag = "<li>";
+					tag += "<a href='#'><i class='"+ico+"'></i>"+data.title+"</a>"; // 1차 카테고리 [링크주소 X = Grouping만 한거임]
+					tag += "<ol></ol>";
+					tag += "</li>";
+				// 동적 태그로 변환하기
+				category.append(tag);
+				
+				// cate2List 반복문
+				$.each(data.cate2List, function(j, vo){
+					$('.category ol').eq(i).append("<li><a href='/Kmarket/shop/list?cate1="+vo.code1+"&cate2="+vo.code2+"'>"+vo.title+"</a></li>");
+				});
+				
+			});
+					
+		});
+	});		
+</script>
+
+
+<!-- 카테고리 -->
+<ul class="category">     
+    <li><i class="fa fa-bars" aria-hidden="true"></i>카테고리</li>
+</ul>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.dao.MainDao">
+  	
+  	<!-- join의 경우에 VO와 Query문의 column이 일치가 안되서 resultMap = 사용자 정의 객체를 통해 categories VO의 객체 각각을 mapping시켜준다. -->
+  	<resultMap id="categoriesMap" type="kr.co.kmarket.vo.CategoriesVO">
+		<result property="code1" column="code1"/>
+		<result property="title" column="tit1"/>
+		
+		
+		 <!-- cate2List는 List기 때문에 result가 아닌 collection구문을 쓴다. 그리고 ofType을 통해 Cate2VO의 변수들을 List가 사용할수 있다. seq는 딱히 필요없지만 그냥 냅두자. -->
+		<collection property="cate2List" ofType="kr.co.kmarket.vo.Cate2VO">
+			<result property="code1" column="code1"/>
+			<result property="code2" column="code2"/>
+			<result property="title" column="tit2"/>		
+		</collection>
+	</resultMap>
+	
+  	<!-- resultMap을 사용해서 resultType이 아닌 resultMap을 채용 -->
+	<select id="selectCategories" resultMap="categoriesMap"> 
+		<!-- column에 중복이 있기때문에 선별작업이 필요함 -->
+	 	SELECT 
+	 	c2.code1,
+	 	c2.code2,
+	 	c1.title AS tit1,
+	 	c2.title AS tit2
+	 	FROM `km_cate1` AS c1
+		JOIN `km_cate2` AS c2
+		ON c1.code1 = c2.code1
+		ORDER BY c2.code1, c2.code2;		
+	</select>
+	
+	<select id="selectHitProduct" resultType="kr.co.kmarket.vo.ProductVO">
+		<!-- hit상품 나열 query + discount 적용 -->
+		SELECT *, FLOOR(price * (1 - discount/100)) AS `salePrice` FROM `km_product` ORDER BY `hit` DESC LIMIT 8;
+	</select>
+	<select id="selectRecommendProduct" resultType="kr.co.kmarket.vo.ProductVO">
+		<!-- 추천상품 나열 query = score[별]가 높은 순서대로 + discount 적용-->
+		SELECT *, FLOOR(price * (1 - discount/100)) AS `salePrice` FROM `km_product` ORDER BY `score` DESC LIMIT 8;
+	</select>
+	
+	<select id="selectLatestProduct" resultType="kr.co.kmarket.vo.ProductVO">
+		<!-- 추천상품 나열 query = score[별]가 높은 순서대로 + discount 적용-->
+		SELECT *, FLOOR(price * (1 - discount/100)) AS `salePrice` FROM `km_product` ORDER BY `rdate` DESC LIMIT 8;
+	</select>
+	
+	<select id="selectDiscountProduct" resultType="kr.co.kmarket.vo.ProductVO">
+		<!-- 추천상품 나열 query = score[별]가 높은 순서대로 + discount 적용-->
+		SELECT *, FLOOR(price * (1 - discount/100)) AS `salePrice` FROM `km_product` ORDER BY `discount` DESC LIMIT 8;
+	</select>
+	
+</mapper>
+
